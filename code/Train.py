@@ -13,7 +13,7 @@ nb_classes = 45
 nb_step = 4001  #how many train
 ##################
 
-data = np.loadtxt('preferance_data.csv', delimiter = ',', dtype = np.float32)
+data = np.loadtxt('training_data.csv', delimiter = ',', dtype = np.float32)
 
 x_data = data[:,0:-1]
 y_data = data[:,[-1]]
