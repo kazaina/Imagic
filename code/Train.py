@@ -5,6 +5,7 @@
 
 import tensorflow as tf
 import numpy as np
+import store_dict as sdic
 
 ### Parameters ####
 LearningRate = 0.1
