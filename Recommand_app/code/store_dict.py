@@ -1,3 +1,7 @@
+# Store Dictionary code
+#  Created by Imagic 2018
+#  Copyright © 2018 Imaigc All rights reserved.
+
 store_dict = {
 1: "고씨네",
 2: "광운분식",

@@ -62,6 +62,9 @@ with tf.Session() as sess:
         if step % 1000 ==0:
             print("Step: {}\t\tLoss: {}".format(step, sess.run(cost, feed_dict=feed)))
     print("End Train.")
+    ############ TEST #################
     acc = sess.run(accuracy, feed_dict=feed)
     print("Accuracy {:.2%}".format(acc))
+    ans = sess.run(prediction, feed_dict = {x:[[0,1,1,0,1,1,1,1,1,1,1,1],]})
+    print("Prediction : {}".format(sdic.store_dict[ans[0]]))
 
