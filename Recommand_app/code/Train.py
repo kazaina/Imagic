@@ -53,7 +53,9 @@ def StartTrain(import_data):
     cor_predict = tf.equal(prediction, tf.argmax(y_one_hot,1))
     accuracy = tf.reduce_mean(tf.cast(cor_predict, dtype=tf.float32))
 
-    ###### Training #######
+    return_val ='' #initializing return value
+
+            ###### Training #######
     with tf.Session() as sess:
         sess.run(tf.global_variables_initializer())
         feed = {x:x_data, y:y_data}
@@ -67,5 +69,6 @@ def StartTrain(import_data):
         acc = sess.run(accuracy, feed_dict=feed)
         print("Accuracy {:.2%}".format(acc))
         ans = sess.run(prediction, feed_dict = {x:[import_data,]})
-        print("Prediction : {}".format(sdic.store_dict[ans[0]]))
-
+#        print("Prediction : {}".format(sdic.store_dict[ans[0]]))
+        return_val = sdic.store_dict[ans[0]]
+    return return_val
