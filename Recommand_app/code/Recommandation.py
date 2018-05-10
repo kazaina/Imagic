@@ -70,16 +70,37 @@ while(1):
     for i in range(7):
         list.append(menu[0][i])
     break
-
-#ans = tr.StartTrain(list)
-#print("오늘의 추천식당은 '{}'입니다!".format(sdic.store_dict[ans]))
-ans = 1
+## Train ##
+ans = tr.StartTrain(list)
+###########
+print("오늘의 추천식당은 '{}'입니다!".format(sdic.store_dict[ans]))
+print("맘에 드시나요?\n1. 네\n2. 아니오")
+yes = int(input("input >> "))
+if yes != 1:
+    a = 0
+    st_num = 0
+    while not a:
+        print("\n맘에 들지 않으시다면 오늘 드실 식당 이름을 적어주세요.\n")
+        want = input("input >> ")
+        for i in range(1, len(sdic.store_dict)+1):
+            if sdic.store_dict[i] == want:
+                a = 1
+                st_num = i
+                break
+        if not a:
+            print("식당 이름이 잘못된것 같아요.")
+            print("<식당 목록>")
+            for i in range(1, len(sdic.store_dict)+1):
+                print("{}. {} ".format(i, sdic.store_dict[i]), end = '')
+    list.append(st_num)
+else:
+    list.append(ans)
         ## Save response data ##
 f = open("response_data.csv", "a")
-for i in range(12):
+for i in range(13):
     f.write(str(list[i]))
-    f.write(',')
-f.write(str(ans))
+    if i != 12:
+        f.write(',')
 f.write('\n')
 f.close()
 
