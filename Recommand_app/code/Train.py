@@ -5,7 +5,6 @@
 
 import tensorflow as tf
 import numpy as np
-import store_dict as sdic
 
 def StartTrain(import_data):
     ### Parameters ####
@@ -70,5 +69,5 @@ def StartTrain(import_data):
         print("Accuracy {:.2%}".format(acc))
         ans = sess.run(prediction, feed_dict = {x:[import_data,]})
 #        print("Prediction : {}".format(sdic.store_dict[ans[0]]))
-        return_val = sdic.store_dict[ans[0]]
+        return_val = ans[0]
     return return_val

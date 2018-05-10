@@ -1,4 +1,5 @@
 import Train as tr
+import store_dict as sdic
 
 list = []
 ### Ask sex ###
@@ -69,13 +70,23 @@ while(1):
     for i in range(7):
         list.append(menu[0][i])
     break
+ans = tr.StartTrain(list)
+print("오늘의 추천식당은 '{}'입니다!".format(sdic.store_dict[ans]))
 
-print("오늘의 추천식당은 '{}'입니다!".format(tr.StartTrain(list)))
+        ## Save response data ##
+f = open("response_data.csv", "a")
+for i in range(7):
+    f.write(str(list[i]))
+    f.write(',')
+f.write(str(ans))
+f.write('\n')
+f.close()
 
     
-
-
-
+    ## To Do ##
+# 1. View 3 store list for user to choice. -> MinSub
+# 2. If there was no user's want, input store what user want to eat. -> Heawul
+# 3. Save trained model. -> MyungO
 
 
 
