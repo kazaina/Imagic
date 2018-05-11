@@ -71,7 +71,8 @@ while(1):
         list.append(menu[0][i])
     break
 ## Train ##
-ans = tr.StartTrain(list)
+#ans = tr.StartTrain(list)
+ans = 47
 ###########
 print("오늘의 추천식당은 '{}'입니다!".format(sdic.store_dict[ans]))
 print("맘에 드시나요?\n1. 네\n2. 아니오")
@@ -88,10 +89,11 @@ if yes != 1:
                 st_num = i
                 break
         if not a:
-            print("식당 이름이 잘못된것 같아요.")
+            print("식당 이름이 잘못된것 같아요.\n")
             print("<식당 목록>")
             for i in range(1, len(sdic.store_dict)+1):
                 print("{}. {} ".format(i, sdic.store_dict[i]), end = '')
+            print("")
     list.append(st_num)
 else:
     list.append(ans)
