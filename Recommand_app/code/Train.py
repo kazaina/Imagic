@@ -5,16 +5,17 @@
 
 import tensorflow as tf
 import numpy as np
+import store_dict as sdic
 
 def StartTrain(import_data):
     ### Parameters ####
     LearningRate = 0.1
     condition = 12
-    nb_classes = 45
+    nb_classes = len(sdic.store_dict)
     nb_step = 4001  #how many train
     ##################
 
-    data = np.loadtxt('training_data.csv', delimiter = ',', dtype = np.float32)
+    data = np.loadtxt('response_data.csv', delimiter = ',', dtype = np.float32)
 
     x_data = data[:,0:-1]
     y_data = data[:,[-1]]

@@ -51,11 +51,11 @@ print("")
 
 ### Ask Menu ###
 while(1):
-    print("오늘 메뉴로 괜찮은 것을 순서대로 선택해 주세요.\n---------------------------------------------------------------")
-    print("1. 고기  2. 면  3. 볶음밥  4. 중화요리  5. 컵밥  6. 분식  7. 밥\n---------------------------------------------------------------")
-    print("(Usage : '나는 고기랑 볶음밥이 좋아' -> input >> 1 0 1 0 0 0 0)")
+    print("오늘 메뉴로 괜찮은 것을 순서대로 선택해 주세요.\n-----------------------------------------------------------------")
+    print("1. 백반  2. 덮/컵/볶음+밥  3. 중화요리 4. 돈까스 5. 면류 6. 분식 7. 패스트푸드  \n-----------------------------------------------------------------")
+    print("(Usage : '나는 오늘 밥이 먹고싶어' -> input >> 1 1 1 0 0 0 0)")
     print("input >> ", end = '')
-    menu =[[int(x) for x in input().split()]for y in range(1)]
+    menu = [[int(x) for x in input().split()]for y in range(1)]
     if len(menu[0])!=7:
         print("\n잘못된 입력입니다. 0과 1중, 7개의 data만 입력해주세요.\n")
         continue
@@ -71,8 +71,8 @@ while(1):
         list.append(menu[0][i])
     break
 ## Train ##
-#ans = tr.StartTrain(list)
-ans = 47
+ans = tr.StartTrain(list)
+#ans = 1
 ###########
 print("오늘의 추천식당은 '{}'입니다!".format(sdic.store_dict[ans]))
 print("맘에 드시나요?\n1. 네\n2. 아니오")
