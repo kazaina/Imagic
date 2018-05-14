@@ -1,4 +1,4 @@
-import Train as tr
+import Trained_model as tr
 import store_dict as sdic
 
 list = []
@@ -52,7 +52,7 @@ print("")
 ### Ask Menu ###
 while(1):
     print("오늘 메뉴로 괜찮은 것을 순서대로 선택해 주세요.\n-----------------------------------------------------------------")
-    print("1. 백반  2. 덮/컵/볶음+밥  3. 중화요리 4. 돈까스 5. 면류 6. 분식 7. 패스트푸드  \n-----------------------------------------------------------------")
+    print("1. 백반  2. 덮/컵/볶음+밥  3. 중화요리\n4. 돈까스 5. 면류 6. 분식 7. 패스트푸드  \n-----------------------------------------------------------------")
     print("(Usage : '나는 오늘 밥이 먹고싶어' -> input >> 1 1 1 0 0 0 0)")
     print("input >> ", end = '')
     menu = [[int(x) for x in input().split()]for y in range(1)]
@@ -70,10 +70,9 @@ while(1):
     for i in range(7):
         list.append(menu[0][i])
     break
-## Train ##
-ans = tr.StartTrain(list)
-#ans = 1
-###########
+
+ans = tr.Recommandation(list)
+
 print("오늘의 추천식당은 '{}'입니다!".format(sdic.store_dict[ans]))
 print("맘에 드시나요?\n1. 네\n2. 아니오")
 yes = int(input("input >> "))
