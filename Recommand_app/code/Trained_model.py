@@ -1,3 +1,7 @@
+#  Trained model code.
+#  Created by Imagic 2018
+#  Copyright © 2018 Imaigc All rights reserved.
+
 import tensorflow as tf
 import store_dict as sdic
 import numpy as np

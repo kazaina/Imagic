@@ -1,3 +1,7 @@
+#  Recommandation prototype app.
+#  Created by Imagic 2018
+#  Copyright © 2018 Imaigc All rights reserved.
+
 import Trained_model as tr
 import store_dict as sdic
 
