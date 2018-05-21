@@ -8,10 +8,10 @@ import numpy as np
 import store_dict as sdic
     
 ### Parameters ####
-LearningRate = 0.1
-condition = 12
+LearningRate = 0.04 # the best result
+condition = 12 
 nb_classes = len(sdic.store_dict)
-nb_step = 3001  #how many train
+nb_step = 7001  #how many train
 ##################
 
 data = np.loadtxt('response_data.csv', delimiter = ',', dtype = np.float32)
