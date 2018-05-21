@@ -95,7 +95,11 @@ if yes != 1:
             print("식당 이름이 잘못된것 같아요.\n")
             print("<식당 목록>")
             for i in range(1, len(sdic.store_dict)+1):
-                print("{}. {} ".format(i, sdic.store_dict[i]), end = '')
+                print("{}. {}\t".format(i, sdic.store_dict[i]), end = '')
+                if len(sdic.store_dict[i]) < 6:
+                    print("\t", end = '')
+                if i%3==0:
+                    print("")
             print("")
     list.append(st_num)
 else:
