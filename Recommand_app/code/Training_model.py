@@ -68,5 +68,6 @@ with tf.Session() as sess:
     ############ TEST #################
     acc = sess.run(accuracy, feed_dict=feed)
     print("Accuracy {:.2%}".format(acc))
-    saver.save(sess, './Trained_model')
+    saver.save(sess, './Trained_model.ckpt')
+    tf.train.write_graph(sess.graph_def, ".", 'Trained_model.pb', as_text=False)
 

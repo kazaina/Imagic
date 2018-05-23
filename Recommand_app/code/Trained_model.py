@@ -44,7 +44,7 @@ def Recommandation(import_data):
     saver = tf.train.Saver()
     
     with tf.Session() as sess:
-        saver = tf.train.import_meta_graph('Trained_model.meta')
+        saver = tf.train.import_meta_graph('Trained_model.ckpt.meta')
         saver.restore(sess, tf.train.latest_checkpoint('./'))
         ans = sess.run(prediction, feed_dict = {x:[import_data,]})
         return_val = ans[0]
