@@ -11,7 +11,7 @@ import store_dict as sdic
 LearningRate = 0.04 # the best result
 condition = 12 
 nb_classes = len(sdic.store_dict)
-nb_step = 7001  #how many train
+nb_step = 5001  #how many train
 ##################
 
 data = np.loadtxt('response_data.csv', delimiter = ',', dtype = np.float32)
