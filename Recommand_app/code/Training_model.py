@@ -8,13 +8,13 @@ import numpy as np
 import store_dict as sdic
     
 ### Parameters ####
-LearningRate = 0.04 # the best result
+LearningRate = 0.03 # the best result
 condition = 12 
 nb_classes = len(sdic.store_dict)
-nb_step = 7001  #how many train
+nb_step = 8001  #how many train
 ##################
 
-data = np.loadtxt('response_data.csv', delimiter = ',', dtype = np.float32)
+data = np.loadtxt('Training_data.csv', delimiter = ',', dtype = np.float32)
 
 x_data = data[:,0:-1]
 y_data = data[:,[-1]]
@@ -25,12 +25,12 @@ y_one_hot = tf.one_hot(y, nb_classes)
 y_one_hot = tf.reshape(y_one_hot, [-1, nb_classes])
 
 with tf.name_scope("layer1") as scope: ## layer 1  : condition -> 100
-    w1 = tf.get_variable("w1", shape=[condition, 100], initializer = tf.contrib.layers.xavier_initializer())
-    b1 = tf.Variable(tf.random_normal([100]))
+    w1 = tf.get_variable("w1", shape=[condition, 70], initializer = tf.contrib.layers.xavier_initializer())
+    b1 = tf.Variable(tf.random_normal([70]))
     layer1 = tf.nn.softmax(tf.matmul(x, w1) + b1)
     
 with tf.name_scope("layer2") as scope: ## layer 2  : 100 -> 50
-    w2 = tf.get_variable("w2", shape=[100, 50], initializer = tf.contrib.layers.xavier_initializer())
+    w2 = tf.get_variable("w2", shape=[70, 50], initializer = tf.contrib.layers.xavier_initializer())
     b2 = tf.Variable(tf.random_normal([50]))
     layer2 = tf.nn.softmax(tf.matmul(layer1, w2) + b2)
 
