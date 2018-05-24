@@ -11,7 +11,7 @@ import store_dict as sdic
 LearningRate = 0.04 # the best result
 condition = 12 
 nb_classes = len(sdic.store_dict)
-nb_step = 5001  #how many train
+nb_step = 7001  #how many train
 ##################
 
 data = np.loadtxt('response_data.csv', delimiter = ',', dtype = np.float32)
@@ -24,22 +24,23 @@ y = tf.placeholder(dtype = tf.int32, shape = [None, 1]) #for softmax
 y_one_hot = tf.one_hot(y, nb_classes)
 y_one_hot = tf.reshape(y_one_hot, [-1, nb_classes])
 
-with tf.name_scope("layer1") as scope: ## layer 1  : condition -> 50
-    w1 = tf.get_variable("w1", shape=[condition, 50], initializer = tf.contrib.layers.xavier_initializer())
-    b1 = tf.Variable(tf.random_normal([50]))
+with tf.name_scope("layer1") as scope: ## layer 1  : condition -> 100
+    w1 = tf.get_variable("w1", shape=[condition, 100], initializer = tf.contrib.layers.xavier_initializer())
+    b1 = tf.Variable(tf.random_normal([100]))
     layer1 = tf.nn.softmax(tf.matmul(x, w1) + b1)
     
-with tf.name_scope("layer2") as scope: ## layer 2  : 50 -> 150
-    w2 = tf.get_variable("w2", shape=[50, 150], initializer = tf.contrib.layers.xavier_initializer())
-    b2 = tf.Variable(tf.random_normal([150]))
+with tf.name_scope("layer2") as scope: ## layer 2  : 100 -> 50
+    w2 = tf.get_variable("w2", shape=[100, 50], initializer = tf.contrib.layers.xavier_initializer())
+    b2 = tf.Variable(tf.random_normal([50]))
     layer2 = tf.nn.softmax(tf.matmul(layer1, w2) + b2)
 
-with tf.name_scope("layer3") as scope: ## layer 3  : 150 -> 50
-    w3 = tf.get_variable("w3", shape=[150, 50], initializer = tf.contrib.layers.xavier_initializer())
-    b3 = tf.Variable(tf.random_normal([50]))
+with tf.name_scope("layer3") as scope: ## layer 3  : 50 -> 30
+    w3 = tf.get_variable("w3", shape=[50, 30], initializer = tf.contrib.layers.xavier_initializer())
+    b3 = tf.Variable(tf.random_normal([30]))
     layer3 = tf.nn.softmax(tf.matmul(layer2, w3) + b3)
-    
-w = tf.Variable(tf.random_normal([50, nb_classes]))
+
+
+w = tf.Variable(tf.random_normal([30, nb_classes]))
 b = tf.Variable(tf.random_normal([nb_classes]))
 
 logits = tf.matmul(layer3,w) + b
