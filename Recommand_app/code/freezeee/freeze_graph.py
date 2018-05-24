@@ -24,7 +24,7 @@ environments like mobile or embedded where we may not have access to the
 RestoreTensor ops and file loading calls that they rely on.
 
 An example of command-line usage is:
-bazel build Users/admin/Desktop/Imagic/Recommand_app/code/freezeee:freeze_graph && \
+bazel build Users/admin/Desktop/Imagic/Recommand_app/code/freezeee:freeze_graph.py && \
 bazel-Users/admin/Desktop/Imagic/Recommand_app/code/freezeee/freeze_graph \
 --input_binary=true \
 --input_graph=/Users/admin/Desktop/Imagic/Recommand_app/code/freezeee/Trained_model.pb \
