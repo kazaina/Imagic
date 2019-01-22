@@ -1,0 +1,63 @@
+GIT
+
+git init 
+버전 추가(작업관리할 공간생성)
+
+git status
+파일 확인(추가될)
+
+git add [filename]
+git에게 추가할 파일을 명시한다.  — stage area
+
+git config --global user.email jongja@email.com
+git config --global user.name jongja
+다른사람에게 누가 작업했는지 알려주기 위함.
+
+git commit
+commit 할(add가 된) 파일의 내용을 표시
+
+git log
+각각의 commit된 버전을 확인
+  -p  commit과 commit사이에 source상의 차이를 확인할 수 있다.
+         --- /dev/null
+	+++ b/f2.txt     =>> 해당 버전에서 파일이 생성되었다는 것을 의미
+
+  --branches   branch 별 최신파일을 보여준다.
+  --branches --decorate --graph --online => 브랜치의 변화를 한번에 보여준다.
+
+git diff [commit id1] [commit id2] or git diff [commit id1]..[commit id2]
+각각의  commit의 내용의 차이점을 보여주는 명령어 
+*commit id란? git log를 쳤을때 나오는 “528eeb929eaf793f612c6208dfabbf07d681ad4b”와 같은 내용
+[commit id1]..[commit id2] => id1부터  id2까지 몇개가 변경이 되었는가?
+
+git reset --hard [commit id] / git revert [commit id]
+ git reset - 위에 있는 로그들을 지우고 해당 commit id로 돌아가는것.
+ git revert - 위에 있는 내용들을 취소하고 최신으로 바꾸는것(해당 아이디를)
+
+git commit -am “message”
+inline에서 commit과 add와 message 를 동시에 작성
+단, 처음 add시는 안된다
+git commit --amend 마지막 커밋내용을 바꿀수있다
+
+git branch [branch name]
+git branch를 쓰면 *이 붙어있는데 그 branch를 사용하고 있다는 것을 말한다. default는 master.
+git checkout [branch name] - branchname으로 변경.
+git branch -d [branch name] branch 삭제
+git checkout -b [new branch] branch 생성 및 체크아웃
+
+git stash
+작업하고 있는 내용을 숨길때 사용한다
+git stash apply - 숨긴내용을 다시 살림
+git stash list  - stash list를 보여줌. 방금 처리한 것은 가장 위에 있다
+git stash drop - 최신 stash를 삭제
+git stash apply; git stash drop 한번에!
+
+git clone [주소] [dir]
+원격저장소에서 로컬저장소로 복사
+
+
+
+
+
+
+
