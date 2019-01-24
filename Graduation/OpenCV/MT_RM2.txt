@@ -124,7 +124,7 @@ int main(int argc, char**argv) {
 	Vec4i *temp = new Vec4i[lines.size()];
 	for (size_t i = 0; i < lines.size(); i++) {
 		temp[i] = lines[i];
-		cout << "check:" << Point(temp[i][0], temp[i][1]) << Point(temp[i][2], temp[i][3]) << endl;
+		//cout << "check:" << Point(temp[i][0], temp[i][1]) << Point(temp[i][2], temp[i][3]) << endl;
 	}
 
 
@@ -245,9 +245,62 @@ int main(int argc, char**argv) {
 	cv::calcOpticalFlowPyrLK(imgA, imgB, cornerA, cornerB, features_found, cv::noArray(), cv::Size(win_size * 2 + 1, win_size * 2 + 1), 5,
 		cv::TermCriteria(cv::TermCriteria::MAX_ITER | cv::TermCriteria::EPS, 20, 0.3));
 
+	int *checkingarray= new int [cornerA.size()+1];
+	int *score = new int[cornerA.size() + 1];
+
+	for (int i = 0; i < (int)cornerA.size(); i++) {
+		checkingarray[i] = 0;
+		score[i] = 0;
+	}
+
+	for (int i = 0; i < (int)cornerA.size(); i++) {
+		for (int j = i; j < (int)cornerA.size(); j++) {
+			if (!features_found[i]) continue;
+
+			if (abs(cornerA[i].x - cornerA[j].x)<5 && i != j)
+			{
+				cornerA[j].x = cornerA[i].x;
+				score[i]++;
+			}
+		}
+	}
+
+	for (int i = 0; i < (int)cornerA.size(); i++) {
+		for (int j = 0; j < (int)cornerA.size(); j++) {
+			if (!features_found[i]) continue;
+
+			if (abs(cornerA[i].y - cornerA[j].y)<5 && i != j)
+			{
+				if(abs(cornerA[i].x - cornerA[j].x)<5 && i != j)
+					if(score[i]>score[j])
+						checkingarray[j] -= 100;
+					else
+						checkingarray[i] -= 100;
+			}
+		}
+	}
+
+	for (int i = 0; i < (int)cornerA.size(); i++) {
+		for (int j = 0; j < (int)cornerA.size(); j++) {
+			if (!features_found[i]) continue;
+
+			if (cornerA[i].x == cornerA[j].x && i!=j)
+			{
+				score[i] += 100;
+			}
+		}
+	}
+
+	int sa = 0;
 	for (int i = 0; i < (int)cornerA.size(); i++) {
 		if (!features_found[i]) continue;
-		line(imgC, cornerA[i], cornerB[i], cv::Scalar(0, 255, 0), 6, cv::LINE_AA);
+
+		sa++;
+		cout<<cornerA[i]<<sa<<endl;
+
+		if (checkingarray[i]>=0&&score[i]>=100) {
+			line(imgC, cornerA[i], cornerB[i], cv::Scalar(0, 255, 0), 6, cv::LINE_AA);
+		}
 	}
 
 
@@ -274,7 +327,7 @@ int main(int argc, char**argv) {
 
 	for (int i = 0; i < (int)cornerA2.size(); i++) {
 		if (!features_found2[i]) continue;
-		line(imgC2, cornerA2[i], cornerB2[i], cv::Scalar(0, 255, 0), 6, cv::LINE_AA);
+		line(imgC2, cornerA2[i], cornerB2[i], cv::Scalar(152, 125, 0), 6, cv::LINE_AA);
 	}
 
 	cv::imshow("LK Optical Flow Example2", imgC2);
