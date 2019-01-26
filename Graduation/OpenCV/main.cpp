@@ -124,7 +124,7 @@ int main(int argc, char**argv) {
 	Vec4i *temp = new Vec4i[lines.size()];
 	for (size_t i = 0; i < lines.size(); i++) {
 		temp[i] = lines[i];
-		cout << "check:" << Point(temp[i][0], temp[i][1]) << Point(temp[i][2], temp[i][3]) << endl;
+		//cout << "check:" << Point(temp[i][0], temp[i][1]) << Point(temp[i][2], temp[i][3]) << endl;
 	}
 
 
@@ -140,7 +140,7 @@ int main(int argc, char**argv) {
 
 	for (size_t i = 0; i < lines.size(); i++) {
 		for (size_t j = 0; j < lines.size(); j++) {
-			if ((abs(temp[i][1] - temp[j][1])<5) && ((temp[i][1] != temp[j][1]))) {
+			if ((abs(temp[i][1] - temp[j][1]) < 5) && ((temp[i][1] != temp[j][1]))) {
 				temp[j][1] = temp[i][1];
 			}
 		}
@@ -236,22 +236,69 @@ int main(int argc, char**argv) {
 
 	int win_size = 5;
 
-	vector<cv::Point2f> cornerA, cornerB;
+	vector<cv::Point2f> cornerA;
 	cv::goodFeaturesToTrack(imgA, cornerA, MAX_CORNERS, 0.01, 5, cv::noArray(), 3, false, 0.04);
 	cv::cornerSubPix(mask, cornerA, cv::Size(win_size, win_size), cv::Size(-1, -1), cv::TermCriteria(cv::TermCriteria::MAX_ITER | cv::TermCriteria::EPS,
 		20, 0.03));
 
-	vector<uchar> features_found;
-	cv::calcOpticalFlowPyrLK(imgA, imgB, cornerA, cornerB, features_found, cv::noArray(), cv::Size(win_size * 2 + 1, win_size * 2 + 1), 5,
-		cv::TermCriteria(cv::TermCriteria::MAX_ITER | cv::TermCriteria::EPS, 20, 0.3));
+	int *fixed = new int[cornerA.size() + 1];
+	int *score = new int[cornerA.size() + 1];
+	int *range = new int[cornerA.size() + 1];
 
 	for (int i = 0; i < (int)cornerA.size(); i++) {
-		if (!features_found[i]) continue;
-		line(imgC, cornerA[i], cornerB[i], cv::Scalar(0, 255, 0), 6, cv::LINE_AA);
+		fixed[i] = 0;	//수정 이력 여부
+		score[i] = 0;	//점수 - 자신과 같은 x좌표를 가지고 있는 점들의 수
+		range[i] = 0;	//점과 점사이의 거리 - 너무 붙을 경우 노이즈로 간주하기 위해서 사용
+	}
+
+	for (int i = 0; i < (int)cornerA.size(); i++) {
+		for (int j = i; j < (int)cornerA.size(); j++) {
+			if (abs(cornerA[i].x - cornerA[j].x) < 5 && i != j)	//x좌표의 거리가 5미만일 경우 동일한 좌표로 수정( 정렬하기)
+			{
+				if (fixed[j] == 0)								//수정 이력이 없는 경우만
+				{	
+					cornerA[j].x = cornerA[i].x;
+					fixed[j] = 1;								//정렬 되었다면 수정이력을 1로 수정
+				}
+			}
+		}
+	}
+
+	for (int i = 0; i < (int)cornerA.size(); i++) {				//점수 갱신
+		for (int j = 0; j < (int)cornerA.size(); j++) {
+			if (cornerA[i].x == cornerA[j].x && i != j)
+			{
+				score[i] +=1;
+			}
+		}
+	}
+	for (int i = 0; i < (int)cornerA.size(); i++) {
+		for (int j = i; j < (int)cornerA.size(); j++) {
+			if ((pow(cornerA[i].x - cornerA[j].x,2) + pow(cornerA[i].y - cornerA[j].y,2))<100)		//거리가 10미만일 경우 
+			{
+				if (i != j) {
+					if (score[i] > score[j])											//i의 점수가 높으면 j를 탈락시키고
+						range[j] = -1;
+					else																//j의 점수가 높으면 i를 탈락시킨다.
+						range[i] = -1;
+				}
+			}
+		}
+	}
+
+	int sa = 0;
+	for (int i = 0; i < (int)cornerA.size(); i++) {
+		sa++;
+		cout << cornerA[i] << sa << endl;
+
+		if ( score[i] > 0&& range[i]==0) {											//스코어가 양수이고 거리가 정상인 것만 출력
+			circle(imgC, cornerA[i], 6, cv::LINE_AA);								// 점의경우 중복체크가 힘들기때문에 circle사용
+		}
 	}
 
 
-	cv::imshow("LK Optical Flow Example", imgC);
+	cv::imshow("LK Optical Flow Example", imgC);																		///////	TO DO ::	X좌표에 의한 노이즈설정시 
+																														///////            노이즈끼리 같은 X좌표를 가지는 경우가 존재
 
 
 
@@ -274,7 +321,7 @@ int main(int argc, char**argv) {
 
 	for (int i = 0; i < (int)cornerA2.size(); i++) {
 		if (!features_found2[i]) continue;
-		line(imgC2, cornerA2[i], cornerB2[i], cv::Scalar(0, 255, 0), 6, cv::LINE_AA);
+		line(imgC2, cornerA2[i], cornerB2[i], cv::Scalar(152, 125, 0), 6, cv::LINE_AA);
 	}
 
 	cv::imshow("LK Optical Flow Example2", imgC2);
